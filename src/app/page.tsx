@@ -58,7 +58,6 @@ export default function Home() {
       headingAlignmentClass = 'text-right';
     } else {
       sectionAlignmentClass = 'mx-auto';
-      headingAlignmentClass = 'text-center';
     }
   }
 
