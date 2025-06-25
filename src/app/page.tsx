@@ -50,12 +50,10 @@ export default function Home() {
   //   1281–1536: right aligned
   //   >1536: centered
   let sectionAlignmentClass = 'mx-auto';
-  let headingAlignmentClass = 'text-center';
 
   if (scrolled) {
     if (windowWidth > 1280 && windowWidth <= 1536) {
       sectionAlignmentClass = 'ml-auto mr-0 pr-16'; // right aligned with padding-right
-      headingAlignmentClass = 'text-right';
     } else {
       sectionAlignmentClass = 'mx-auto';
     }
