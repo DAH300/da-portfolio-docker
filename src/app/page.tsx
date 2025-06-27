@@ -1,5 +1,8 @@
 'use client';
 
+import GitHubIcon from '@/components/icons/GitHubIcon';
+import LeetCodeIcon from '@/components/icons/LeetCodeIcon';
+import LinkedInIcon from '@/components/icons/LinkedInIcon';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
@@ -72,17 +75,17 @@ export default function Home() {
         <section className="relative z-10 flex h-screen w-full flex-col items-center justify-center text-center px-4">
           <div
             className={`transition-all duration-2000 ease-in-out fixed ${scrolled
-                ? 'top-1/4 left-4 scale-50 text-left'
-                : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100 text-center'
+              ? 'top-1/4 left-5 -translate-x-20 scale-50 text-left'
+              : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100 text-center'
               }`}
           >
             <h1
-              className={`text-4xl sm:text-6xl font-bold ${scrolled ? 'text-left' : 'text-center'
+              className={`text-4xl sm:text-7xl font-bold ${scrolled ? 'text-left' : 'text-center'
                 }`}
             >
               Dwayne Howell
             </h1>
-            <p className="mt-2 text-xl sm:text-2xl font-light text-[#cfa5afcc] text-center">
+            <p className="mt-2 text-xl sm:text-3xl font-light text-[#cfa5afcc] text-center">
               Backend, Embedded, <br />
               & Full-Stack Developer
             </p>
@@ -156,8 +159,7 @@ export default function Home() {
         id="experience"
         className={`relative z-10 px-6 py-20 max-w-4xl ${sectionAlignmentClass}`}
       >
-        <h2
-          className={`text-3xl font-semibold mb-8 border-b border-[#cfa5af33] pb-2 text-left`}
+        <h2 className={`text-3xl font-semibold mb-8 border-b border-[#cfa5af33] pb-2 text-left`}
         >
           Work Experience
         </h2>
@@ -184,6 +186,48 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Floating Social Icons */}
+      <div
+        className={`fixed top-[66vh] left-[8rem] z-50 flex flex-col items-start space-y-4 transition-all duration-2000 ease-out ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'
+          }`}
+      >
+        {/* GitHub */}
+        <a
+          href="https://github.com/DAH300"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+        >
+          <GitHubIcon className="w-10 h-10" />
+          <span className="text-base font-bold">GitHub</span>
+        </a>
+
+        {/* LinkedIn */}
+        <a
+          href="https://www.linkedin.com/in/dwayne-howell-461b4a217/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+        >
+          <LinkedInIcon className="w-10 h-10" />
+          <span className="text-base font-bold">LinkedIn</span>
+        </a>
+
+        {/* LeetCode */}
+        <a
+          href="https://leetcode.com/N997CYUOst"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LeetCode"
+          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+        >
+          <LeetCodeIcon className="w-10 h-10" />
+          <span className="text-base font-bold">LeetCode</span>
+        </a>
+      </div>
     </main>
   );
 }
