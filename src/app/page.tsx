@@ -1,9 +1,59 @@
 'use client';
 
-import GitHubIcon from '@/components/icons/GitHubIcon';
-import LeetCodeIcon from '@/components/icons/LeetCodeIcon';
-import LinkedInIcon from '@/components/icons/LinkedInIcon';
+import projects from '@/data/projects';
+import socials from '@/data/socials';
 import { useEffect, useRef, useState } from 'react';
+
+function ProjectCard({
+  href,
+  title,
+  description,
+}: {
+  href: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block rounded-lg border border-transparent hover:border-[#cfa5af55] hover:bg-[#cfa5af0a] transition-all duration-200 p-4"
+    >
+      <h3 className="text-xl font-medium text-[#CFA5AF] group-hover:text-white transition-colors duration-200">
+        {title}
+      </h3>
+      <p className="text-[#cfa5af99] mt-1 group-hover:text-[#cfa5afdd] transition-colors duration-200">
+        {description}
+      </p>
+    </a>
+  );
+}
+
+function SocialLink({
+  href,
+  name,
+  Icon,
+}: {
+  href: string;
+  name: string;
+  Icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={name}
+      className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+    >
+      <Icon className="w-10 h-10" />
+      <span className="text-base font-bold">{name}</span>
+    </a>
+  );
+}
+
+
 
 export default function Home() {
   const glowRef = useRef<HTMLDivElement>(null);
@@ -11,6 +61,8 @@ export default function Home() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1600
   );
+  const [atBottom, setAtBottom] = useState(false);
+
 
   useEffect(() => {
     const moveGlow = (e: MouseEvent) => {
@@ -22,7 +74,10 @@ export default function Home() {
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+      setAtBottom(scrollBottom);
     };
+
 
     window.addEventListener('mousemove', moveGlow);
     window.addEventListener('scroll', handleScroll);
@@ -44,7 +99,8 @@ export default function Home() {
   }, []);
 
   // Hero visible if NOT scrolled OR (scrolled AND wide screen)
-  const showHero = !scrolled || (scrolled && windowWidth > 1280);
+  const showHero = true;
+
 
   // Section alignment logic AFTER scroll
   // Before scroll: always centered
@@ -62,6 +118,7 @@ export default function Home() {
     }
   }
 
+
   return (
     <main className="relative w-screen bg-[#3C0D1F] text-[#CFA5AF] scroll-smooth overflow-x-hidden">
       {/* Glow */}
@@ -71,8 +128,13 @@ export default function Home() {
       />
 
       {/* Hero Section */}
+
+      {/* Large Screen Hero */}
       {showHero && (
-        <section className="relative z-10 flex h-screen w-full flex-col items-center justify-center text-center px-4">
+        <section
+          className={`relative z-10 flex h-screen w-full flex-col items-center justify-center text-center px-4 ${windowWidth > 1280 ? 'block' : 'hidden'
+            }`}
+        >
           <div
             className={`transition-all duration-2000 ease-in-out fixed ${scrolled
               ? 'top-1/4 left-5 -translate-x-20 scale-50 text-left'
@@ -97,9 +159,24 @@ export default function Home() {
         </section>
       )}
 
-      {/* Spacer div to avoid clipping when hero shrinks */}
+      {/* Small Screen Hero */}
       {showHero && (
-        <div className={`transition-all duration-500 ${scrolled ? 'h-[100px]' : 'h-0'}`} />
+        <section
+          className={`relative z-10 flex flex-col items-center justify-center text-center px-4 py-20 ${windowWidth <= 1280 ? 'block' : 'hidden'
+            }`}
+        >
+          <div
+            className={`relative p-4 text-center scale-100 top-auto left-auto translate-x-0 translate-y-0`}
+          >
+            <h1 className="text-4xl sm:text-7xl font-bold text-center">
+              Dwayne Howell
+            </h1>
+            <p className="mt-2 text-xl sm:text-3xl font-light text-[#cfa5afcc] text-center">
+              Backend, Embedded, <br />
+              & Full-Stack Developer
+            </p>
+          </div>
+        </section>
       )}
 
       {/* Projects Section */}
@@ -113,44 +190,15 @@ export default function Home() {
           Projects
         </h2>
         <div className="space-y-6">
-          {/* Project 1 */}
-          <a
-            href="https://github.com/DAH300/da-portfolio-docker"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-lg border border-transparent hover:border-[#cfa5af55] hover:bg-[#cfa5af0a] transition-all duration-200 p-4"
-          >
-            <h3 className="text-xl font-medium text-[#CFA5AF]">Portfolio Site (This!)</h3>
-            <p className="text-[#cfa5af99] mt-1">
-              Full-stack personal site built with Next.js 15, Tailwind CSS, and Docker for consistent development. Features live reloading.
-            </p>
-          </a>
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.href}
+              href={project.href}
+              title={project.title}
+              description={project.description}
+            />
+          ))}
 
-          {/* Project 2 */}
-          <a
-            href="https://github.com/DAH300"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-lg border border-transparent hover:border-[#cfa5af55] hover:bg-[#cfa5af0a] transition-all duration-200 p-4"
-          >
-            <h3 className="text-xl font-medium text-[#CFA5AF]">Embedded Temp Monitor (PIC)</h3>
-            <p className="text-[#cfa5af99] mt-1">
-              Reads DS18B20 sensor via 1-Wire and displays real-time temperature using an I2C LCD on a PIC16F877A. Timers, interrupts, and bit-banging used extensively.
-            </p>
-          </a>
-
-          {/* Project 3 */}
-          <a
-            href="https://github.com/DAH300/Bills_App"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-lg border border-transparent hover:border-[#cfa5af55] hover:bg-[#cfa5af0a] transition-all duration-200 p-4"
-          >
-            <h3 className="text-xl font-medium text-[#CFA5AF]">Self-Updating Python App</h3>
-            <p className="text-[#cfa5af99] mt-1">
-              A Python application packaged as a `.exe` that checks GitHub for updates and relaunches itself when a new version is available. Built with PyInstaller and GitHub Releases API.
-            </p>
-          </a>
         </div>
       </section>
 
@@ -187,47 +235,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Floating Social Icons */}
-      <div
-        className={`fixed top-[66vh] left-[8rem] z-50 flex flex-col items-start space-y-4 transition-all duration-2000 ease-out ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'
-          }`}
-      >
-        {/* GitHub */}
-        <a
-          href="https://github.com/DAH300"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+      {/* Social Links */}
+      {windowWidth > 1280 && (
+        <div
+          className={`fixed top-[66vh] left-[8rem] z-50 flex flex-col items-start space-y-4 transition-all duration-2000 ease-out ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'
+            }`}
         >
-          <GitHubIcon className="w-10 h-10" />
-          <span className="text-base font-bold">GitHub</span>
-        </a>
+          {socials.map((social) => (
+            <SocialLink key={social.name} {...social} />
+          ))}
+        </div>
+      )}
 
-        {/* LinkedIn */}
-        <a
-          href="https://www.linkedin.com/in/dwayne-howell-461b4a217/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
+      {windowWidth < 1280 && (
+        <div
+          className="flex justify-center items-center gap-12 py-10 transition-all duration-1000 ease-in-out animate-slide-up"
+          style={{ animation: 'slide-up 1s ease-out forwards' }}
         >
-          <LinkedInIcon className="w-10 h-10" />
-          <span className="text-base font-bold">LinkedIn</span>
-        </a>
+          {socials.map((social) => (
+            <SocialLink key={social.name} {...social} />
+          ))}
+        </div>
+      )}
 
-        {/* LeetCode */}
-        <a
-          href="https://leetcode.com/N997CYUOst"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LeetCode"
-          className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
-        >
-          <LeetCodeIcon className="w-10 h-10" />
-          <span className="text-base font-bold">LeetCode</span>
-        </a>
-      </div>
+
     </main>
   );
 }
