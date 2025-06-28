@@ -61,7 +61,6 @@ export default function Home() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1600
   );
-  const [atBottom, setAtBottom] = useState(false);
 
 
   useEffect(() => {
@@ -74,8 +73,6 @@ export default function Home() {
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
-      setAtBottom(scrollBottom);
     };
 
 
