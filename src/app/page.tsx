@@ -8,10 +8,12 @@ function ProjectCard({
   href,
   title,
   description,
+  tags,
 }: {
   href: string;
   title: string;
   description: string;
+  tags?: string[];
 }) {
   return (
     <a
@@ -26,6 +28,20 @@ function ProjectCard({
       <p className="text-[#cfa5af99] mt-1 group-hover:text-[#cfa5afdd] transition-colors duration-200">
         {description}
       </p>
+      {tags && tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-xs bg-[#CFA5AF33] text-white px-2 py-1 rounded-full border border-[#CFA5AF88] font-medium"
+            >
+              {tag}
+            </span>
+
+          ))}
+        </div>
+      )}
+
     </a>
   );
 }
@@ -193,6 +209,7 @@ export default function Home() {
               href={project.href}
               title={project.title}
               description={project.description}
+              tags={project.tags}
             />
           ))}
 
