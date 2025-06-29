@@ -2,74 +2,11 @@
 
 import projects from '@/data/projects';
 import socials from '@/data/socials';
+import experience from '@/data/experience';
+import ProjectCard from '@/components/ProjectCard';
+import WorkEntry from '@/components/WorkEntry';
+import SocialLink from '@/components/SocialLink';
 import { useEffect, useRef, useState } from 'react';
-
-function ProjectCard({
-  href,
-  title,
-  description,
-  tags,
-}: {
-  href: string;
-  title: string;
-  description: string;
-  tags?: string[];
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block rounded-lg border border-transparent hover:border-[#cfa5af55] hover:bg-[#cfa5af0a] transition-all duration-200 p-4"
-    >
-      <h3 className="text-xl font-medium text-[#CFA5AF] group-hover:text-white transition-colors duration-200">
-        {title}
-      </h3>
-      <p className="text-[#cfa5af99] mt-1 group-hover:text-[#cfa5afdd] transition-colors duration-200">
-        {description}
-      </p>
-      {tags && tags.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs bg-[#CFA5AF33] text-white px-2 py-1 rounded-full border border-[#CFA5AF88] font-medium"
-            >
-              {tag}
-            </span>
-
-          ))}
-        </div>
-      )}
-
-    </a>
-  );
-}
-
-function SocialLink({
-  href,
-  name,
-  Icon,
-}: {
-  href: string;
-  name: string;
-  Icon: React.ComponentType<{ className?: string }>;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={name}
-      className="flex items-center space-x-2 text-[#CFA5AF] hover:text-white transition-colors duration-200"
-    >
-      <Icon className="w-10 h-10" />
-      <span className="text-base font-bold">{name}</span>
-    </a>
-  );
-}
-
-
 
 export default function Home() {
   const glowRef = useRef<HTMLDivElement>(null);
@@ -77,7 +14,6 @@ export default function Home() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1600
   );
-
 
   useEffect(() => {
     const moveGlow = (e: MouseEvent) => {
@@ -130,7 +66,6 @@ export default function Home() {
       sectionAlignmentClass = 'mx-auto';
     }
   }
-
 
   return (
     <main className="relative w-screen bg-[#3C0D1F] text-[#CFA5AF] scroll-smooth overflow-x-hidden">
@@ -212,7 +147,6 @@ export default function Home() {
               tags={project.tags}
             />
           ))}
-
         </div>
       </section>
 
@@ -226,26 +160,14 @@ export default function Home() {
           Work Experience
         </h2>
         <div className="space-y-10">
-          <div>
-            <h3 className="text-xl font-medium">Self-Directed Projects (2024–Now)</h3>
-            <p className="text-[#cfa5af99]">
-              <strong>Full-Stack</strong> – Designed and deployed this portfolio site with Docker and Next.js, and developed a self-updating Python desktop app using GitHub integration and packaging tools.
-              <br />
-              <strong>Embedded</strong> – Built microcontroller projects with PIC, working with timers, I2C, UART, and temperature sensors. Independently developed understanding of datasheets and low-level registers.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-xl font-medium">Group Project Lead – CS Degree</h3>
-            <p className="text-[#cfa5af99]">
-              Consistently led academic dev teams, taking initiative in backend structure, API planning, and ensuring teammates stayed on track through clear documentation and collaboration.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-xl font-medium">Service & Retail Management (2005–2024)</h3>
-            <p className="text-[#cfa5af99]">
-              Led teams of up to 60 people across fast food and retail (Panera, Chick-fil-A, Sears, VA Hospital). Oversaw scheduling, hiring, training, POS systems, and customer service.
-            </p>
-          </div>
+          {experience.map((job, i) => (
+            <WorkEntry
+              key={i}
+              title={job.title}
+              dateRange={job.dateRange}
+              bullets={job.bullets}
+            />
+          ))}
         </div>
       </section>
 
@@ -271,8 +193,6 @@ export default function Home() {
           ))}
         </div>
       )}
-
-
     </main>
   );
 }
