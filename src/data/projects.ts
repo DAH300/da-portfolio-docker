@@ -9,7 +9,7 @@ const projects = [
         tags: ['Next.js', 'React', 'TypeScript', 'Docker', 'Frontend', 'Full-Stack'],
     },
     {
-        href: "https://github.com/DAH300",
+        href: "https://github.com/DAH300/MPLABXProjects",
         title: "Embedded Temp Monitor (PIC)",
         description:
             "Reads DS18B20 sensor via 1-Wire and displays real-time temperature using an I2C LCD on a PIC16F877A. Timers, interrupts, and bit-banging used extensively.",
